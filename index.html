@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Taconic Horticulture Shop</title>
+<style>
+/* ===================== Root Variables and Fonts ===================== */
+:root{ 
+  --bg:#e8f6ea; 
+  --card:#f6fff6; 
+  --accent:#d4af37; 
+  --muted:#6b8f6b; 
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial; 
+}
+html,body{height:100%;margin:0;background:linear-gradient(135deg, #e9f7eb 0%, #1f5f2b 100%);background-attachment:fixed;background-size:cover;color:#08320f}
+.site{max-width:1100px;margin:28px auto;padding:20px}
+
+/* ===================== Header / Navigation ===================== */
+header.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px
+}
+.site-title{
+  font-weight:900;
+  font-size:30px;
+  margin:0
+}
+.site-title .subtitle{
+  display:block;
+  font-weight:600;
+  font-size:12px;
+  color:var(--muted);
+  margin-top:6px
+}
+nav{display:flex;gap:10px}
+.btn{
+  background:transparent;
+  border:1px solid rgba(212,175,55,0.12);
+  padding:8px 12px;
+  border-radius:8px;
+  color:inherit;
+  text-decoration:none;
+  font-weight:700
+}
+
+/* ===================== Hero Section ===================== */
+.hero{
+  margin-top:18px;
+  display:grid;
+  grid-template-columns:1fr 320px;
+  gap:18px
+}
+.hero .card{
+  background:linear-gradient(180deg, rgba(235,250,235,0.9), rgba(245,255,245,0.85));
+  padding:20px;
+  border-radius:12px;
+  border:1px solid rgba(212,175,55,0.06)
+}
+.hero h1{font-size:34px;margin:0 0 10px;font-weight:900}
+.muted{color:var(--muted)}
+
+/* ===================== Grid / Cards ===================== */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+.card h3{margin:0 0 8px}
+
+/* ===================== Footer ===================== */
+footer{
+  margin-top:20px;
+  color:#08320f;
+  background-color:#d4af37; /* Gold footer */
+  padding:12px;
+  border-radius:10px;
+  text-align:center
+}
+
+/* ===================== Responsive ===================== */
+@media (max-width:880px){
+  .hero{grid-template-columns:1fr}
+  .grid{grid-template-columns:1fr}
+}
+
+/* ===================== Collections Grid ===================== */
+.collections-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;
+  margin-top:16px
+}
+.plant-card{
+  background:linear-gradient(180deg, rgba(245,255,245,0.6), rgba(240,250,240,0.4));
+  padding:16px;
+  border-radius:12px;
+  border:1px solid rgba(212,175,55,0.06);
+  text-align:center
+}
+.plant-card img{
+  width:100%;
+  height:200px;
+  object-fit:cover;
+  border-radius:10px;
+  display:block;
+  margin-bottom:10px
+}
+.plant-title{font-size:17px;font-weight:800;margin:6px 0;color:inherit}
+.plant-meta{color:var(--muted);font-size:14px}
+
+/* Plant Catalog title: larger and centered above the grid */
+section[id="Plant Catalog"] > h2{ 
+  text-align:center;
+  font-size:36px;
+  font-weight:900;
+  margin:0 0 18px;
+}
+
+/* ===================== Career Cards ===================== */
+.career-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:12px}
+.career-card{
+  background:linear-gradient(180deg, rgba(245,255,245,0.6), rgba(240,250,240,0.4));
+  padding:18px;
+  border-radius:12px;
+  border:1px solid rgba(212,175,55,0.06);
+  text-align:left
+}
+.career-card h3{margin:0 0 6px;font-size:16px}
+.career-role{font-size:18px;font-weight:800;margin-top:6px}
+.career-salary{color:var(--accent);font-weight:900;margin-top:8px}
+.career-note{color:var(--muted);font-size:13px;margin-top:8px}
+
+/* ===================== Landing Splash ===================== */
+#landing{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(180deg,#e8f6ea 0%, #dff4e0 100%);
+  z-index:9999
+}
+.landing-inner{
+  max-width:900px;
+  text-align:center;
+  padding:30px;
+  border-radius:14px
+}
+.landing-inner img{
+  width:100%;
+  max-width:680px;
+  height:auto;
+  border-radius:12px;
+  box-shadow:0 12px 40px rgba(8,50,15,0.12)
+}
+.landing-title{font-size:24px;margin-top:12px;font-weight:900;color:#08320f}
+.enter-btn{
+  background:var(--accent);
+  color:#08220a;
+  border:none;
+  padding:12px 28px;
+  border-radius:10px;
+  margin-top:16px;
+  font-weight:900;
+  box-shadow:0 6px 18px rgba(212,175,55,0.18);
+  cursor:pointer
+}
+#landing.land-hide{opacity:1;transform:scale(1);transition:opacity 300ms ease, transform 300ms ease}
+
+/* When landing is visible, visually hide the main site beneath */
+.site.site-hidden{visibility:hidden;pointer-events:none}
+
+/* Hideable sections: start hidden, shown only when triggered */
+.hidden-section{display:none !important}
+
+/* Quick Links spacing */
+.quick-links ul{padding-left:18px;color:var(--muted);margin:10px 0 0}
+.quick-links ul li{margin-bottom:10px}
+.quick-links .btn{display:block}
+
+/* Slide mode: show only one section (the .slide-target) */
+.site.slide-active > *{display:none}
+.site.slide-active .slide-target{display:block !important;min-height:calc(100vh - 40px);margin:0 auto;padding:28px;max-width:900px}
+.site.slide-active #exit-slide{display:inline-block}
+
+/* About highlight when opened from Quick Links */
+.about-wrap{max-width:900px;margin:12px auto}
+.about-columns{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.about-card, .careers-card{background:linear-gradient(180deg, rgba(245,255,245,0.6), rgba(240,250,240,0.4));padding:18px;border-radius:12px;border:1px solid rgba(212,175,55,0.06);text-align:left}
+.about-card p{font-size:16px;line-height:1.6;margin:0}
+.about-highlight .about-card{border:4px solid var(--accent);background:rgba(212,175,55,0.06)}
+.about-highlight .about-card h2{font-size:34px;margin:0 0 8px}
+.about-highlight .about-card p{font-size:18px}
+
+/* Plant catalog: 2 rows x 4 columns grid when opened via Quick Links */
+.collections-grid.grid-2x4{grid-template-columns:repeat(4,1fr);gap:18px}
+@media (max-width:1100px){
+  .collections-grid.grid-2x4{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:880px){
+  .collections-grid.grid-2x4{grid-template-columns:repeat(2,1fr)}
+}
+
+/* ======== MAIN PAGE: About + Careers (Stacked, Divided) ======== */
+.about-careers-row{
+  max-width:1100px;        /* matches your .site width */
+  margin:20px auto 0;      /* spaced below hero */
+  padding:0 20px;          /* matches your site padding */
+}
+
+/* Make the boxes match your other cards */
+.main-page-box{
+  background:linear-gradient(180deg, rgba(245,255,245,0.6), rgba(240,250,240,0.4));
+  padding:18px;
+  border-radius:12px;
+  border:1px solid rgba(212,175,55,0.06);
+}
+
+/* Divider between the two sections */
+.about-careers-row .divider{
+  height:2px;
+  background:rgba(212,175,55,0.4);
+  margin:18px 0;
+  border-radius:2px;
+}
+
+</style>
+</head>
+<body>
+<!-- ===================== Landing / Splash Overlay ===================== -->
+<div id="landing" role="dialog" aria-label="Welcome">
+  <div class="landing-inner">
+    <img src="https://picsum.photos/seed/landing/900/560" alt="Taconic greenhouse"/>
+    <div class="landing-title">The Taconic Horticulture Shop</div>
+    <button id="enter-btn" class="btn enter-btn" aria-label="Enter site">Enter</button>
+  </div>
+</div>
+
+<div class="site">
+<!-- ===================== Header / Nav ===================== -->
+<header class="topbar" role="banner">
+  <div>
+    <h1 class="site-title">The Taconic Horticulture Shop</h1>
+    <small class="subtitle">Learn • Grow • Shop</small>
+  </div>
+    <nav aria-label="Main navigation"></nav>
+</header>
+
+<!-- ===================== Main Hero Section ===================== -->
+<main class="hero" role="main">
+  <section class="card">
+    <h1>Welcome to Our Greenhouse</h1>
+    <p class="muted">At the Taconic Horticulture Shop, students learn horticulture hands-on while our greenhouse offers plants for sale to students and the public.</p>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Student Learning</h3>
+        <p class="muted">Engage in courses and workshops about plant care, propagation, and sustainable gardening.</p>
+      </div>
+      <div class="card">
+        <h3>Flora for Sale</h3>
+        <p class="muted">From potted plants to wreaths, our greenhouse provides high-quality plants grown by our students.</p>
+      </div>
+      <div class="card">
+        <h3>Volunteer & Events</h3>
+        <p class="muted">Help with planting, greenhouse upkeep, or attend special workshops and community events.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Quick Links Aside ===================== -->
+  <aside class="card quick-links" role="complementary">
+    <h3>Quick Links</h3>
+    <ul style="padding-left:18px;color:var(--muted);margin:10px 0 0">
+      <li><a class="btn" href="#Plant-Catalog">View Plants</a></li>
+      <li><a class="btn" href="#Teachers-Info">Teachers Info</a></li>
+      <li><a class="btn" href="#contact">Contact Us</a></li>
+    </ul>
+  </aside>
+</main>
+
+<!-- ===================== About + Careers (MAIN PAGE ONLY) ===================== -->
+<section class="about-careers-row">
+
+  <div class="about-card main-page-box" 
+     style="position:relative; 
+            background-image: linear-gradient(rgba(255,255,255,0.75), rgba(255,255,255,0.75)), url('Garden.jpg'); 
+            background-size: cover; 
+            background-position: center;
+            color: #000;">
+  <h2>About Us</h2>
+  <p>We are Taconic's horticulture branch, teaching students plant science while offering plants for sale to the school and community. From landscaping projects to decorative plant arrangements, we ensure every plant is cared for with knowledge and dedication.</p>
+  <p style="margin-top:10px">
+    Our programs emphasize hands-on learning, sustainable practices, and community engagement. Students gain practical experience in propagation, greenhouse management, and retail operations.
+  </p>
+</div>
+
+  <div class="divider"></div>
+
+  <div class="careers-card main-page-box">
+    <h2>Career Opportunities</h2>
+    <p class="muted">Learn real-world horticulture and landscaping while gaining experience for future careers.</p>
+
+    <div class="career-grid">
+      <div class="career-card">
+        <h3>With a High School Degree</h3>
+        <div class="career-role">Greenhouse Assistant</div>
+        <div class="career-salary">$35,000+ / year</div>
+        <div class="career-note muted">
+          Assist with plant care, potting, and maintenance under supervision.
+        </div>
+      </div>
+
+      <div class="career-card">
+        <h3>With a 2 Year College Degree</h3>
+        <div class="career-role">Student Supervisor</div>
+        <div class="career-salary">$45,000+ / year</div>
+        <div class="career-note muted">
+          Oversee student teams, propagate plants, and support greenhouse operations.
+        </div>
+      </div>
+
+      <div class="career-card">
+        <h3>With a 4 Year College Degree</h3>
+        <div class="career-role">Horticulture Manager</div>
+        <div class="career-salary">$60,000+ / year</div>
+        <div class="career-note muted">
+          Lead educational programs, greenhouse management, and shop sales.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- Exit slide button (shown when viewing a single section) -->
+<button id="exit-slide" class="btn" style="position:fixed;left:12px;top:12px;z-index:10010;display:none">Back</button>
+
+<!-- ===================== About Us Section (Pseudo Separate Page) ===================== -->
+<section id="about-section" class="card hidden-section" data-slideable="true" style="margin-top:16px">
+  <div class="about-wrap">
+    <h2>About Us</h2>
+
+    <!-- Two-column layout: left = About summary, right = Careers box -->
+    <div class="about-columns" style="margin-top:12px">
+      <div class="about-card">
+        <p class="muted">We are Taconic's horticulture branch, teaching students plant science while offering plants for sale to the school and community. From landscaping projects to decorative plant arrangements, we ensure every plant is cared for with knowledge and dedication.</p>
+        <p class="muted" style="margin-top:12px">Our programs emphasize hands-on learning, sustainable practices, and community engagement. Students gain practical experience in propagation, greenhouse management, and retail operations.</p>
+      </div>
+
+      <aside class="careers-card" aria-labelledby="careers-heading">
+        <h3 id="careers-heading" style="margin-bottom:8px">Career Opportunities</h3>
+        <p class="muted" style="margin-top:0;margin-bottom:12px">Learn real-world horticulture and landscaping while gaining experience for future careers.</p>
+
+        <div class="career-grid">
+          <div class="career-card">
+            <h3>With a High School Degree</h3>
+            <div class="career-role">Greenhouse Assistant</div>
+            <div class="career-salary">$35,000+ / year</div>
+            <div class="career-note muted">Assist with plant care, potting, and maintenance under supervision.</div>
+          </div>
+          <div class="career-card">
+            <h3>With a 2 Year College Degree</h3>
+            <div class="career-role">Student Supervisor</div>
+            <div class="career-salary">$45,000+ / year</div>
+            <div class="career-note muted">Oversee student teams, propagate plants, and support greenhouse operations.</div>
+          </div>
+          <div class="career-card">
+            <h3>With a 4 Year College Degree</h3>
+            <div class="career-role">Horticulture Manager</div>
+            <div class="career-salary">$60,000+ / year</div>
+            <div class="career-note muted">Lead educational programs, greenhouse management, and shop sales.</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== Plant Catalog / Collections ===================== -->
+<section id="Plant Catalog" class="card hidden-section" data-slideable="true" style="margin-top:12px">
+  <h2>Plant Catalog</h2>
+  <div class="collections-grid" aria-live="polite">
+    <div class="plant-card">
+      <img src="88a5a37a862d2b4039e2902909a554ddf3.rsquare.w600.webp" alt="Boxwood Wreath">
+      <div class="plant-title">Boxwood Wreath</div>
+      <div class="plant-meta">16–18 in • $20.99</div>
+    </div>
+    <div class="plant-card">
+      <img src="fejka-artificial-potted-plant-indoor-outdoor-philodendron-green-white__1389900_pe965305_s5.avif" alt="Kissing Ball">
+      <div class="plant-title">Kissing Ball</div>
+      <div class="plant-meta">Hanging 20-25 in • $35.99</div>
+    </div>
+    <div class="plant-card">
+      <img src="Global-Green-Pothos-920x518.webp" alt="Small Centerpiece">
+      <div class="plant-title">Small Centerpiece</div>
+      <div class="plant-meta">Compact/wood 6-10 in • $15.99</div>
+    </div>
+    <div class="plant-card">
+      <img src="green-plants-jazzy-flowers-chicago-west-loop_64b8193577b25.png.webp" alt="Large Centerpiece">
+      <div class="plant-title">Large Centerpiece</div>
+      <div class="plant-meta">Statement • $22.99</div>
+    </div>
+    <div class="plant-card">
+      <img src="monstera-0c06ba38636e44e080cba03201bbbd8a.webp" alt="Wreath Hanger">
+      <div class="plant-title">Wreath Hanger</div>
+      <div class="plant-meta">Metal Fabrication 10-15 in • $10.99</div>
+    </div>
+    <div class="plant-card">
+      <img src="snake-plant-house-plant-PL112722.425.jpg" alt="Succulent Plant">
+      <div class="plant-title">Succulent Plant</div>
+      <div class="plant-meta">15–20 in • $21.99</div>
+    </div>
+    <div class="plant-card">
+      <img src="TPL03-1A.avif" alt="Rock Juniper Bonsai tree">
+      <div class="plant-title">Rock Juniper Bonsai tree</div>
+      <div class="plant-meta">10–12 in • $15.99</div>
+    </div>
+    <div class="plant-card">
+      <img src="zoom_A1475-14072993630.jpg" alt="Boxwood Plant">
+      <div class="plant-title">Boxwood Plant</div>
+      <div class="plant-meta">14–22 in • $35.99</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== Teachers Info ===================== -->
+<section id="Teachers-Info" class="card hidden-section" data-slideable="true" style="margin-top:12px">
+  <h2 style="text-align:center; font-size:32px; margin-bottom:24px;">Teachers Info</h2>
+
+  <div style="
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:32px;
+    margin-top:20px;
+  ">
+
+    <!-- TEACHER 1 -->
+    <div style="
+      display:grid;
+      grid-template-columns:1fr 2fr;
+      gap:24px;
+      background:linear-gradient(180deg, rgba(245,255,245,0.8), rgba(230,250,230,0.8));
+      padding:28px;
+      border-radius:16px;
+      border:1px solid rgba(212,175,55,0.15);
+      box-shadow:0 4px 20px rgba(0,0,0,0.05);
+    ">
+      <!-- LEFT SIDE -->
+      <div style="text-align:center">
+        <img src="https://picsum.photos/450/350?random=1"
+             style="width:100%; border-radius:16px; margin-bottom:20px"
+             alt="Teacher Photo">
+
+        <h3 style="margin-bottom:8px; font-size:22px;">Mrs. Jane Doe</h3>
+        <p class="muted"><strong>Position:</strong> Horticulture Instructor</p>
+        <p class="muted"><strong>Email:</strong> jane.doe@taconic.edu</p>
+        <p class="muted"><strong>Phone:</strong> (123) 456-7890</p>
+
+        <hr style="margin:20px 0">
+
+        <h3 style="margin-bottom:10px;">Skills</h3>
+        <p class="muted" style="margin-bottom:6px;">Greenhouse Management</p>
+        <div style="background:#e8f6ea;border-radius:20px; overflow:hidden; margin-bottom:12px;">
+          <div style="width:90%;background:#d4af37;padding:8px 0;font-weight:bold;text-align:center;border-radius:20px">90%</div>
+        </div>
+
+        <p class="muted" style="margin-bottom:6px;">Plant Propagation</p>
+        <div style="background:#e8f6ea;border-radius:20px; overflow:hidden;">
+          <div style="width:85%;background:#d4af37;padding:8px 0;font-weight:bold;text-align:center;border-radius:20px">85%</div>
+        </div>
+      </div>
+
+      <!-- RIGHT SIDE -->
+      <div>
+        <h3 style="margin-bottom:12px;">Work Experience</h3>
+        <h4>Senior Greenhouse Instructor</h4>
+        <p class="muted">2018 – Present</p>
+        <p class="muted">Leads horticulture curriculum, oversees plant production, and mentors students.</p>
+
+        <hr style="margin:18px 0">
+
+        <h4>Landscape Specialist</h4>
+        <p class="muted">2014 – 2018</p>
+        <p class="muted">Designed sustainable landscape projects and supervised installation teams.</p>
+
+        <hr style="margin:18px 0">
+
+        <h3 style="margin-bottom:12px;">Education</h3>
+        <h4>Bachelor’s Degree in Horticulture</h4>
+        <p class="muted">State University • 2010–2014</p>
+      </div>
+    </div>
+
+    <!-- TEACHER 2 -->
+    <div style="
+      display:grid;
+      grid-template-columns:1fr 2fr;
+      gap:24px;
+      background:linear-gradient(180deg, rgba(245,255,245,0.8), rgba(230,250,230,0.8));
+      padding:28px;
+      border-radius:16px;
+      border:1px solid rgba(212,175,55,0.15);
+      box-shadow:0 4px 20px rgba(0,0,0,0.05);
+    ">
+      <!-- LEFT SIDE -->
+      <div style="text-align:center">
+        <img src="https://picsum.photos/450/350?random=2"
+             style="width:100%; border-radius:16px; margin-bottom:20px"
+             alt="Teacher Photo">
+
+        <h3 style="margin-bottom:8px; font-size:22px;">Mr. John Smith</h3>
+        <p class="muted"><strong>Position:</strong> Plant Science Specialist</p>
+        <p class="muted"><strong>Email:</strong> john.smith@taconic.edu</p>
+        <p class="muted"><strong>Phone:</strong> (987) 654-3210</p>
+
+        <hr style="margin:20px 0">
+
+        <h3 style="margin-bottom:10px;">Skills</h3>
+        <p class="muted" style="margin-bottom:6px;">Botany & Plant Biology</p>
+        <div style="background:#e8f6ea;border-radius:20px; overflow:hidden; margin-bottom:12px;">
+          <div style="width:88%;background:#d4af37;padding:8px 0;font-weight:bold;text-align:center;border-radius:20px">88%</div>
+        </div>
+
+        <p class="muted" style="margin-bottom:6px;">Sustainable Landscaping</p>
+        <div style="background:#e8f6ea;border-radius:20px; overflow:hidden;">
+          <div style="width:80%;background:#d4af37;padding:8px 0;font-weight:bold;text-align:center;border-radius:20px">80%</div>
+        </div>
+      </div>
+
+      <!-- RIGHT SIDE -->
+      <div>
+        <h3 style="margin-bottom:12px;">Work Experience</h3>
+        <h4>Plant Science Instructor</h4>
+        <p class="muted">2016 – Present</p>
+        <p class="muted">Teaches advanced plant biology and oversees greenhouse research projects.</p>
+
+        <hr style="margin:18px 0">
+
+        <h4>Landscape Consultant</h4>
+        <p class="muted">2012 – 2016</p>
+        <p class="muted">Consulted on sustainable garden designs for local businesses and schools.</p>
+
+        <hr style="margin:18px 0">
+
+        <h3 style="margin-bottom:12px;">Education</h3>
+        <h4>Master’s Degree in Plant Science</h4>
+        <p class="muted">Agricultural University • 2010–2012</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+<!-- ===================== Footer ===================== -->
+<footer>
+© <span id="year"></span> The Taconic Horticulture Shop — All rights reserved 
+
+<section id="contact" class="card hidden-section" data-slideable="true" style="margin-top:12px">
+<h2>Contact</h2>
+<p class="muted">Email: <a href="Place@holder.net"> Place@Holder.net </a> • Location: Taconic Campus Greenhouse</p>
+</section>
+</footer>
+
+</div>
+
+<script src="functionality.js" defer></script>
+</body>
+</html>
